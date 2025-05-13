@@ -14,12 +14,12 @@ app = Flask(__name__)
 def respond():
     update = telegram.Update.de_json(request.get_json(force=True), bot)
     chat_id = update.message.chat.id
-    text = update.message.text.lower()
+    text = update.message.text.strip().lower()
 
     if str(chat_id) != str(YOUR_USER_ID):
         return 'unauthorized'
 
-    if 'te extraño' in text or 'estás ahí' in text:
+    if text.endswith('xx'):
         with open("luna_voice.mp3", "rb") as voice:
             bot.send_voice(chat_id=chat_id, voice=voice)
     else:
